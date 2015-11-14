@@ -1,0 +1,6 @@
+plot((1:1999)',1e3*tim(2:end),'.',[0;2000],1408/2e2+[0;0],'-');
+xlabel('Iteration #'); ylabel('Time for transceive (ms)'); legend('Measurements',sprintf('Expected t_{frame}=%3.2f ms',1408/200));
+title('Transceive function timing - (1) Interpreted MATLAB');
+plot((1:1999)',1e3*timb(2:end),'.',[0;2000],1408/2e2+[0;0],'-');
+xlabel('Iteration #'); ylabel('Time for transceive (ms)'); legend('Measurements',sprintf('Expected t_{frame}=%3.2f ms',1408/200));
+title('Transceive function timing - (2) Using MEX');
