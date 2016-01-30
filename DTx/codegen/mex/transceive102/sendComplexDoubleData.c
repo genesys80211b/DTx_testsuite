@@ -1,4 +1,8 @@
 /*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ *
  * sendComplexDoubleData.c
  *
  * Code generation for function 'sendComplexDoubleData'
@@ -10,31 +14,34 @@
 #include "transceive102.h"
 #include "sendComplexDoubleData.h"
 #include "receiveData.h"
-#include "SystemCore.h"
 #include "transceive102_mexutil.h"
 #include "transceive102_data.h"
 
 /* Variable Definitions */
-static emlrtRSInfo jb_emlrtRSI = { 9, "sendComplexDoubleData",
-  "/usr/local/MATLAB/R2014b/SupportPackages/usrpradio/toolbox/shared/sdr/sdru/usrp_uhd_mapi/sendComplexDoubleData.m"
-};
+static emlrtRSInfo x_emlrtRSI = { 9, "sendComplexDoubleData",
+  "/usr/local/MATLAB/R2015b/SupportPackages/R2015bPrerelease/usrpradio/toolbox/shared/sdr/sdru/usrp_uhd_mapi/sendComplexDoubleData."
+  "m" };
 
 /* Function Definitions */
 void sendComplexDoubleData(const emlrtStack *sp, int32_T driverApiH, const
-  creal_T data[1408], real_T freq, real_T loOffset, real_T gain, real_T interp,
-  uint32_T *underflow, UsrpErrorCapiEnumT *errStat, char_T errStr_data[],
-  int32_T errStr_size[2])
+  creal_T data[1408], const real_T freq[2], const real_T loOffset[2], const
+  real_T gain[2], real_T interp, uint32_T *underflow, UsrpErrorCapiEnumT
+  *errStat, char_T errStr_data[], int32_T errStr_size[2])
 {
+  int32_T i15;
+  static const char_T cv17[6] = { 's', 'i', 'l', 'e', 'n', 't' };
+
+  char_T u[6];
   const mxArray *y;
-  static const int32_T iv28[2] = { 1, 6 };
+  static const int32_T iv11[2] = { 1, 6 };
 
-  const mxArray *m8;
-  char_T cv44[6];
-  int32_T i;
-  static const char_T cv45[6] = { 's', 'i', 'l', 'e', 'n', 't' };
-
+  const mxArray *m4;
+  UsrpErrorCapiEnumT errStat_i;
   creal_T b_data[1408];
-  const mxArray *b_y;
+  real_T b_freq[2];
+  real_T b_loOffset[2];
+  real_T b_gain[2];
+  int32_T errStrSize;
   emlrtStack st;
   emlrtStack b_st;
   st.prev = sp;
@@ -45,24 +52,24 @@ void sendComplexDoubleData(const emlrtStack *sp, int32_T driverApiH, const
   /*  bug: must pass as top-level arg */
   /*  dportDtype = DataPortDataTypeCapiEnumT.DPortDTypeCDouble; */
   /*    Copyright 2011-2012 The MathWorks, Inc. */
-  st.site = &jb_emlrtRSI;
+  st.site = &x_emlrtRSI;
 
   /*  */
   /*  This function unifies handling of interp vs. codegen call as well as */
   /*  errStat / errStr assignment. */
   /*  */
-  /*    Copyright 2011-2014 The MathWorks, Inc. */
+  /*    Copyright 2011-2015 The MathWorks, Inc. */
   if (!isSetupsdruCalled) {
-    y = NULL;
-    m8 = emlrtCreateCharArray(2, iv28);
-    for (i = 0; i < 6; i++) {
-      cv44[i] = cv45[i];
+    for (i15 = 0; i15 < 6; i15++) {
+      u[i15] = cv17[i15];
     }
 
-    emlrtInitCharArrayR2013a(&st, 6, m8, cv44);
-    emlrtAssign(&y, m8);
-    b_st.site = &qb_emlrtRSI;
-    setupsdru(&b_st, sdruroot(&b_st, &f_emlrtMCI), y, &g_emlrtMCI);
+    y = NULL;
+    m4 = emlrtCreateCharArray(2, iv11);
+    emlrtInitCharArrayR2013a(&st, 6, m4, &u[0]);
+    emlrtAssign(&y, m4);
+    b_st.site = &cb_emlrtRSI;
+    setupsdru(&b_st, sdruroot(&b_st, &c_emlrtMCI), y, &d_emlrtMCI);
     isSetupsdruCalled = true;
   }
 
@@ -75,27 +82,30 @@ void sendComplexDoubleData(const emlrtStack *sp, int32_T driverApiH, const
   errStr_size[0] = 1;
   memset(&errStr_data[0], 0, sizeof(char_T) << 10);
   memcpy(&b_data[0], &data[0], 1408U * sizeof(creal_T));
-  sendData_c(driverApiH, b_data, freq, loOffset, gain, interp, underflow,
-             errStat, &errStr_data[0]);
+  for (i15 = 0; i15 < 2; i15++) {
+    b_freq[i15] = freq[i15];
+    b_loOffset[i15] = loOffset[i15];
+    b_gain[i15] = gain[i15];
+  }
+
+  sendData_c(driverApiH, b_data, b_freq, b_loOffset, b_gain, interp, underflow,
+             &errStat_i, &errStr_data[0]);
 
   /* errStat = UsrpErrorCapiEnumT(errStat_i); */
-  i = strlen(&errStr_data[0]);
-  if (i <= 1024) {
+  errStrSize = strlen(&errStr_data[0]);
+  if (errStrSize <= 1024) {
   } else {
-    b_y = NULL;
-    m8 = emlrtCreateString("Assertion failed.");
-    emlrtAssign(&b_y, m8);
-    b_st.site = &nb_emlrtRSI;
-    c_error(&b_st, b_y, &e_emlrtMCI);
+    emlrtErrorWithMessageIdR2012b(&st, &d_emlrtRTEI,
+      "Coder:builtins:AssertionFailed", 0);
   }
 
-  if (1 > i) {
-    i = 0;
+  if (1 > errStrSize) {
+    errStr_size[1] = 0;
   } else {
-    i = emlrtDynamicBoundsCheckFastR2012b(i, 1, 1024, &l_emlrtBCI, &st);
+    errStr_size[1] = errStrSize;
   }
 
-  errStr_size[1] = i;
+  *errStat = errStat_i;
 }
 
 /* End of code generation (sendComplexDoubleData.c) */

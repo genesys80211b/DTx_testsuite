@@ -1,6 +1,6 @@
-START_DIR = /usr/local/MATLAB/V35
+START_DIR = /usr/local/MATLAB/V40_testsuite/DTx
 
-MATLAB_ROOT = /usr/local/MATLAB/R2014b
+MATLAB_ROOT = /usr/local/MATLAB/R2015b
 MAKEFILE = transceive102_mex.mk
 
 include transceive102_mex.mki
@@ -13,31 +13,30 @@ SRC_FILES =  \
 	transceive102_terminate.c \
 	transceive102.c \
 	SDRuTransmitter.c \
-	SDRuBase.c \
 	SystemCore.c \
 	rand.c \
 	eml_rand.c \
 	eml_rand_mcg16807_stateful.c \
 	eml_rand_shr3cong_stateful.c \
 	eml_rand_mt19937ar_stateful.c \
-	eml_warning.c \
+	warning.c \
 	checkIPAddressFormat.c \
 	SDRuReceiver.c \
 	mapiPrivate.c \
 	reportSDRuStatus.c \
 	sendComplexDoubleData.c \
-	error.c \
+	error1.c \
 	receiveData.c \
 	reportDrivers.c \
+	_coder_transceive102_info.c \
 	_coder_transceive102_api.c \
-	_coder_transceive102_mex.c \
-	_coder_transceive102_info.c
+	_coder_transceive102_mex.c
 
 MEX_FILE_NAME_WO_EXT = transceive102_mex
 MEX_FILE_NAME = $(MEX_FILE_NAME_WO_EXT).mexa64
 TARGET = $(MEX_FILE_NAME)
 
-BlockModules_LIBS = "$(MATLAB_ROOT)/SupportPackages/usrpradio/toolbox/shared/sdr/sdru/bin/glnxa64/libmwusrp_uhd_capi.so" 
+BlockModules_LIBS = "$(MATLAB_ROOT)/SupportPackages/R2015bPrerelease/usrpradio/toolbox/shared/sdr/sdru/bin/glnxa64/libmwusrp_uhd_capi.so" 
 SYS_LIBS = $(BlockModules_LIBS) 
 
 
@@ -64,9 +63,9 @@ SYS_INCLUDE = $(ML_INCLUDES)
 
 SYS_INCLUDE += -I "$(START_DIR)"
 SYS_INCLUDE += -I "$(START_DIR)/codegen/mex/transceive102"
-SYS_INCLUDE += -I "$(START_DIR)/codegen/mex/transceive102/interface"
+SYS_INCLUDE += -I "./interface"
 SYS_INCLUDE += -I "$(MATLAB_ROOT)/extern/include"
-SYS_INCLUDE += -I "$(MATLAB_ROOT)/SupportPackages/usrpradio/toolbox/shared/sdr/sdru/include"
+SYS_INCLUDE += -I "$(MATLAB_ROOT)/SupportPackages/R2015bPrerelease/usrpradio/toolbox/shared/sdr/sdru/include"
 SYS_INCLUDE += -I "."
 
 EML_LIBS = -lemlrt -lcovrt -lut -lmwmathutil -lmwblas 

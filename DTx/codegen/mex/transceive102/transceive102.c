@@ -1,4 +1,8 @@
 /*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ *
  * transceive102.c
  *
  * Code generation for function 'transceive102'
@@ -19,22 +23,22 @@ static boolean_T hrx_not_empty;
 static comm_SDRuTransmitter htx;
 static boolean_T htx_not_empty;
 static emlrtRSInfo emlrtRSI = { 6, "transceive102",
-  "/usr/local/MATLAB/V35/transceive102.m" };
+  "/usr/local/MATLAB/V40_testsuite/DTx/transceive102.m" };
 
 static emlrtRSInfo b_emlrtRSI = { 11, "transceive102",
-  "/usr/local/MATLAB/V35/transceive102.m" };
+  "/usr/local/MATLAB/V40_testsuite/DTx/transceive102.m" };
 
 static emlrtRSInfo c_emlrtRSI = { 17, "transceive102",
-  "/usr/local/MATLAB/V35/transceive102.m" };
+  "/usr/local/MATLAB/V40_testsuite/DTx/transceive102.m" };
 
 static emlrtRSInfo d_emlrtRSI = { 18, "transceive102",
-  "/usr/local/MATLAB/V35/transceive102.m" };
+  "/usr/local/MATLAB/V40_testsuite/DTx/transceive102.m" };
 
 static emlrtRSInfo e_emlrtRSI = { 20, "transceive102",
-  "/usr/local/MATLAB/V35/transceive102.m" };
+  "/usr/local/MATLAB/V40_testsuite/DTx/transceive102.m" };
 
 static emlrtRSInfo f_emlrtRSI = { 22, "transceive102",
-  "/usr/local/MATLAB/V35/transceive102.m" };
+  "/usr/local/MATLAB/V40_testsuite/DTx/transceive102.m" };
 
 /* Function Definitions */
 void hrx_not_empty_init(void)
@@ -48,8 +52,9 @@ void htx_not_empty_init(void)
 }
 
 void transceive102(transceive102StackData *SD, const emlrtStack *sp, const
-                   creal_T d2s[1408], boolean_T ft, creal_T dr[1408], uint32_T
-                   *ns)
+                   creal_T d2s[1408], boolean_T ft, real_T txGain, real_T rxGain,
+                   real_T centerFreqTx, real_T centerFreqRx, real_T intFactor,
+                   real_T decFactor, creal_T dr[1408], uint32_T *ns)
 {
   emlrtStack st;
   st.prev = sp;
@@ -58,25 +63,19 @@ void transceive102(transceive102StackData *SD, const emlrtStack *sp, const
   *ns = 0U;
   if (!htx_not_empty) {
     st.site = &emlrtRSI;
-    SDRuTransmitter_SDRuTransmitter(&st, &htx);
+    SDRuTransmitter_SDRuTransmitter(&st, &htx, centerFreqTx, txGain, intFactor);
     htx_not_empty = true;
-
-    /* 1.75e9 */
   }
 
   if (!hrx_not_empty) {
     st.site = &b_emlrtRSI;
-    SDRuReceiver_SDRuReceiver(&st, &hrx);
+    SDRuReceiver_SDRuReceiver(&st, &hrx, centerFreqRx, decFactor, rxGain);
     hrx_not_empty = true;
-
-    /* 1.85e9 */
   }
 
   if (ft) {
     st.site = &c_emlrtRSI;
     SystemCore_release(&st, &hrx);
-
-    /* *************needs to be fixed. Remove later!!!!******** */
     st.site = &d_emlrtRSI;
     b_SystemCore_release(&st, &htx);
   } else {
@@ -85,7 +84,9 @@ void transceive102(transceive102StackData *SD, const emlrtStack *sp, const
     while (*ns < 1U) {
       st.site = &f_emlrtRSI;
       b_SystemCore_step(SD, &st, &hrx, dr, ns);
-      emlrtBreakCheckFastR2012b(emlrtBreakCheckR2012bFlagVar, sp);
+      if (*emlrtBreakCheckR2012bFlagVar != 0) {
+        emlrtBreakCheckR2012b(sp);
+      }
     }
   }
 }

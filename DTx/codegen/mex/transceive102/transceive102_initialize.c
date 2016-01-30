@@ -1,4 +1,8 @@
 /*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ *
  * transceive102_initialize.c
  *
  * Code generation for function 'transceive102_initialize'
@@ -14,6 +18,7 @@
 #include "eml_rand_shr3cong_stateful.h"
 #include "eml_rand_mcg16807_stateful.h"
 #include "eml_rand.h"
+#include "_coder_transceive102_mex.h"
 #include "transceive102_data.h"
 
 /* Function Declarations */
@@ -36,12 +41,12 @@ static void transceive102_once(void)
   mapiPrivate_init();
 }
 
-void transceive102_initialize(emlrtContext *aContext)
+void transceive102_initialize(void)
 {
   emlrtStack st = { NULL, NULL, NULL };
 
+  mexFunctionCreateRootTLS();
   emlrtBreakCheckR2012bFlagVar = emlrtGetBreakCheckFlagAddressR2012b();
-  emlrtCreateRootTLS(&emlrtRootTLSGlobal, aContext, NULL, 1);
   st.tls = emlrtRootTLSGlobal;
   emlrtClearAllocCountR2012b(&st, false, 0U, 0);
   emlrtEnterRtStackR2012b(&st);

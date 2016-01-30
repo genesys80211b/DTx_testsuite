@@ -1,8 +1,8 @@
-MATLAB="/usr/local/MATLAB/R2014b"
+MATLAB="/usr/local/MATLAB/R2015b"
 Arch=glnxa64
 ENTRYPOINT=mexFunction
 MAPFILE=$ENTRYPOINT'.map'
-PREFDIR="/home/ram/.matlab/R2014b"
+PREFDIR="/home/ram/.matlab/R2015b"
 OPTSFILE_NAME="./setEnv.sh"
 . $OPTSFILE_NAME
 COMPILER=$CC
@@ -27,4 +27,4 @@ echo OMPFLAGS= >> transceive102_mex.mki
 echo OMPLINKFLAGS= >> transceive102_mex.mki
 echo "EMC_COMPILER=gcc" >> transceive102_mex.mki
 echo "EMC_CONFIG=optim" >> transceive102_mex.mki
-"/usr/local/MATLAB/R2014b/bin/glnxa64/gmake" -B -f transceive102_mex.mk
+"/usr/local/MATLAB/R2015b/bin/glnxa64/gmake" -B -f transceive102_mex.mk

@@ -49,7 +49,7 @@ st  = uint8(uint8(111)); %prm.DTxStateTransmitHeader
 smt = uint8(11); %#ok<NASGU>
 
 % hft: Function Handle to transceive() function for this IP Address
-trx = eval(sprintf('@transceive%3d_mex',aip));
+trx = eval(sprintf('@transceive%3d_energy_mex',aip));
 % vm:  Verbose M    f.IPAddress(end-4:end)ode: Displays additional text describing DRx actions
 vm  = logical(true(1));
 tic;
@@ -57,16 +57,16 @@ while ~fe
     smt = st/uint8(10);
     if (smt==uint8(12)) %prm.DTxStateTransmitDATA
         [d2s,f8t,fit] = dtx_2TransmitDATA(frt,ft);
-        trx(d2s,ft,txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor);
+        trx(d2s,ft,txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor,0);
         frt = logical(false(1));
         if (f8t)
-            if (vm), fprintf(1,'@%5.2f: 802.11B frame #%d transmitted.\n',toc,c8f);  end %*********Commented out for
+            if (vm), fprintf(1,'@%5.2f: 802.11b DATA Packet #%d Transmitted.\n',toc,c8f);  end %*********Commented out for
             % now!!!!!!!!!*********
             st = uint8(131); %prm.DTxStateRxACKSearchPLCP
         end
     elseif (smt==uint8(13)) %prm.DTxStateRxACK
         for x = 1:numChunk
-            df_temp = trx(db,ft,txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor);
+            df_temp = trx(db,ft,txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor,0);
             df((x-1)*chunkValue+1:x*chunkValue)=df_temp;
         end
         [faf,dfl,flg,nrb,rbs,st] = dtx_3ReceiveACK(df,ft,st);
@@ -102,7 +102,7 @@ while ~fe
             if (cni>=toa)
                 % Reset no-ACK count
                 cni = uint16(0);
-                if (vm), fprintf(1,'@%5.2f: Timeout, No ACK rxd in %d iters, Retransmitting Frame #%d...\n',toc,toa,c8f); end
+                if (vm), fprintf(1,'@%5.2f: Timeout, No ACK Received in %d iterations, Retransmitting DATA #%d...\n',toc,toa,c8f); end
                 retransmit_counter=retransmit_counter+1;
                 st = uint8(111); %prm.DTxStateEnergyDetDIFS
                 % Set flag to retransmit DATA
@@ -111,12 +111,12 @@ while ~fe
         end
     elseif (smt==uint8(11)) %prm.DTxStateEnergyDet
         st = dtx_MAC_Layer(st,frt);
-        % st = uint8(121);
+%         st = uint8(121);
     end % END IF DS
     cti = (cti+uint16(1));
     % If no response from DRx received in TO iterations, then exit
     if (cai>=to)
-        if (vm), fprintf(1,'@%5.2f: Timeout, No ACK rxd in %d iters, Exiting...\n',toc,to);
+        if (vm), fprintf(1,'@%5.2f: Timeout, No ACK Received in %d iterations, Exiting...\n',toc,to);
             retransmit_counter=retransmit_counter-1;
         end
         % Change DTx State to Terminal State: no more Tx/Rx performed
@@ -127,11 +127,11 @@ while ~fe
 end % END WHILE ~FE
 % Clear persistent data within all helper functions
 ft = logical(true(1));
-trx(db,ft,txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor);
+trx(db,ft,txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor,0);
 dtx_2TransmitDATA(frt,ft);
 dtx_3ReceiveACK(df,ft,st);
 clear('ddd','dtx_2TransmitDATA','dtx_3ReceiveACK','preambleDet','rffe','sms');
-clear(sprintf('transceive%3d_mex',aip));
+clear(sprintf('transceive%3d_energy_mex',aip));
 return;
 end % End Function DTX_V35
 
@@ -455,7 +455,7 @@ else
         % threshold, it updates DRx State to "DecodeHeader"
         [flt,ips] = preambleDet(rb);
         if (flt)
-            fprintf('\nsync found!\n');
+            fprintf('\nPreamble Detected!\n');
             syncnum = syncnum +1;
             % If detected PLCP Preamble, set flag #1: fdp
             flg(1,1) = logical(true(1));
@@ -482,9 +482,9 @@ else
             chf = chf+uint8(1);
             if (chf==uint8(1))
                 i1b = uint8(numUsrpBits+1);
-                fprintf(1,'\n\npreSFD dfb bits:');
-                fprintf(1,'%d',dfb);
-                fprintf(1,'\n\n');
+%                 fprintf(1,'\n\nPreSFD dfb bits:');
+%                 fprintf(1,'%d',dfb);
+%                 fprintf(1,'\n\n');
                 % Lvl 3 Fine SFD Correlation: Find exact PLCP SFD start
                 if ~isequal(dfb(i1b:(i1b+15)),[0;0;0;0;0;1;0;1;1;1;0;0;1;1;1;1])
                     % If demodulated sequence is not the same as scrambled Sync,
@@ -540,9 +540,9 @@ else
             elseif (chf==uint8(2)) %prm.NumHeaderFrames
                 % Process frame control in MAC Header
                 if isequal(dfb(i1b:(i1b+15),1),[0;0;0;1;1;1;0;1;1;1;1;1;1;1;1;1])
-                    fprintf(1,'Packet Received!');
+                    fprintf(1,'ACK Received!');
                     fprintf(1,'\n');
-                    fprintf(1,'Frame control:');%%%%************Checking frame control at DRx
+                    fprintf(1,'ACK''s Frame-Control Readout:');%%%%************Checking frame control at DRx
                     fprintf(1,'%d',dfb(i1b:(i1b+15),1));
                     fprintf(1,'\n');
                     
@@ -570,6 +570,7 @@ else
                     % Reset all count variables internal to function
                     chf = uint8(0);
                     cpf = uint8(0);
+                    fprintf('\nReturning To Detect Preamble..');
                     rb(1:doubleUsrpFrameLength) = complex(zeros(doubleUsrpFrameLength,1));
                 end
                 
@@ -579,7 +580,7 @@ else
                 %extract addresses
                 addressTx = str2double(strcat(num2str(bi2de(dfb(i1b:(i1b+7)).')),num2str(bi2de(dfb(i1b+8:(i1b+15)).'))));
                 %print addresses
-                fprintf(1,'Addresed to DTx: %d \n',addressTx);
+                fprintf(1,'ACK Addresed to DTx: %d \n',addressTx);
 
                 
                 %if packet is addressed to this receiver
@@ -588,7 +589,7 @@ else
                     chf = uint8(0);
                     st  = uint8(111); %prm.DRxStateRxGetPayload
                 else
-                    fprintf('wrong address, reset and to searchpreamble\n');
+                    fprintf('Wrong MAC Address, Resetting to Detect Preamble..\n');
                     % Set flag #6: ffc true when MAC Frame Control ~DATA
                     flg(1,6) = logical(true(1));
                     % Send back the Frame Control Received in dfl

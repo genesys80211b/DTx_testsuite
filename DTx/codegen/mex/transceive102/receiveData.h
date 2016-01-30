@@ -1,4 +1,8 @@
 /*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ *
  * receiveData.h
  *
  * Code generation for function 'receiveData'
@@ -10,6 +14,7 @@
 
 /* Include files */
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "mwmathutil.h"
@@ -21,10 +26,10 @@
 #include "transceive102_types.h"
 
 /* Function Declarations */
-extern void receiveData(const emlrtStack *sp, int32_T driverApiH, real_T freq,
-  real_T loOffset, real_T gain, real_T decim, cint16_T data[375000], uint32_T
-  *dataLength, uint32_T *overflow, UsrpErrorCapiEnumT *errStat, char_T
-  errStr_data[], int32_T errStr_size[2]);
+extern void receiveData(const emlrtStack *sp, int32_T driverApiH, const real_T
+  freq[2], const real_T loOffset[2], const real_T gain[2], real_T decim,
+  cint16_T data[375000], uint32_T *dataLength, uint32_T *overflow,
+  UsrpErrorCapiEnumT *errStat, char_T errStr_data[], int32_T errStr_size[2]);
 
 #endif
 

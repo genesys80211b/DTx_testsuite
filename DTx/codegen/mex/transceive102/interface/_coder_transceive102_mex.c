@@ -1,67 +1,96 @@
 /*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ *
  * _coder_transceive102_mex.c
  *
- * Code generation for function 'transceive102'
+ * Code generation for function '_coder_transceive102_mex'
  *
  */
 
 /* Include files */
-#include "mex.h"
+#include "transceive102.h"
+#include "_coder_transceive102_mex.h"
+#include "transceive102_terminate.h"
 #include "_coder_transceive102_api.h"
 #include "transceive102_initialize.h"
-#include "transceive102_terminate.h"
-
-/* Function Declarations */
-static void transceive102_mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]);
+#include "transceive102_data.h"
 
 /* Variable Definitions */
-emlrtContext emlrtContextGlobal = { true, false, EMLRT_VERSION_INFO, NULL, "transceive102", NULL, false, {3024490070U,1960474184U,2004393916U,2615046318U}, NULL };
-void *emlrtRootTLSGlobal = NULL;
+static transceive102StackData *transceive102StackDataGlobal = NULL;
+
+/* Function Declarations */
+static void transceive102_mexFunction(transceive102StackData *SD, int32_T nlhs,
+  mxArray *plhs[2], int32_T nrhs, const mxArray *prhs[8]);
 
 /* Function Definitions */
-static void transceive102_mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+static void transceive102_mexFunction(transceive102StackData *SD, int32_T nlhs,
+  mxArray *plhs[2], int32_T nrhs, const mxArray *prhs[8])
 {
+  int32_T n;
+  const mxArray *inputs[8];
   const mxArray *outputs[2];
-  const mxArray *inputs[2];
-  int n = 0;
-  int nOutputs = (nlhs < 1 ? 1 : nlhs);
-  int nInputs = nrhs;
+  int32_T b_nlhs;
   emlrtStack st = { NULL, NULL, NULL };
-  transceive102StackData* transceive102StackDataLocal = (transceive102StackData*)mxCalloc(1,sizeof(transceive102StackData));
-  /* Module initialization. */
-  transceive102_initialize(&emlrtContextGlobal);
+
   st.tls = emlrtRootTLSGlobal;
+
   /* Check for proper number of arguments. */
-  if (nrhs != 2) {
-    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, mxINT32_CLASS, 2, mxCHAR_CLASS, 13, "transceive102");
-  } else if (nlhs > 2) {
-    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:TooManyOutputArguments", 3, mxCHAR_CLASS, 13, "transceive102");
+  if (nrhs != 8) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 8, 4,
+                        13, "transceive102");
   }
+
+  if (nlhs > 2) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:TooManyOutputArguments", 3, 4, 13,
+                        "transceive102");
+  }
+
   /* Temporary copy for mex inputs. */
-  for (n = 0; n < nInputs; ++n) {
+  for (n = 0; n < nrhs; n++) {
     inputs[n] = prhs[n];
+    if (*emlrtBreakCheckR2012bFlagVar != 0) {
+      emlrtBreakCheckR2012b(&st);
+    }
   }
+
   /* Call the function. */
-  transceive102_api(transceive102StackDataLocal, inputs, outputs);
+  transceive102_api(SD, inputs, outputs);
+
   /* Copy over outputs to the caller. */
-  for (n = 0; n < nOutputs; ++n) {
-    plhs[n] = emlrtReturnArrayR2009a(outputs[n]);
+  if (nlhs < 1) {
+    b_nlhs = 1;
+  } else {
+    b_nlhs = nlhs;
   }
-  /* Module finalization. */
+
+  emlrtReturnArrays(b_nlhs, plhs, outputs);
+
+  /* Module termination. */
   transceive102_terminate();
-  mxFree(transceive102StackDataLocal);
 }
 
-void transceive102_atexit_wrapper(void)
+void mexFunction(int32_T nlhs, mxArray *plhs[], int32_T nrhs, const mxArray
+                 *prhs[])
 {
-   transceive102_atexit();
-}
+  transceive102StackDataGlobal = (transceive102StackData *)mxCalloc(1, 1U *
+    sizeof(transceive102StackData));
+  mexAtExit(transceive102_atexit);
 
-void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
-{
   /* Initialize the memory manager. */
-  mexAtExit(transceive102_atexit_wrapper);
+  /* Module initialization. */
+  transceive102_initialize();
+
   /* Dispatch the entry-point. */
-  transceive102_mexFunction(nlhs, plhs, nrhs, prhs);
+  transceive102_mexFunction(transceive102StackDataGlobal, nlhs, plhs, nrhs, prhs);
+  mxFree(transceive102StackDataGlobal);
 }
+
+emlrtCTX mexFunctionCreateRootTLS(void)
+{
+  emlrtCreateRootTLS(&emlrtRootTLSGlobal, &emlrtContextGlobal, NULL, 1);
+  return emlrtRootTLSGlobal;
+}
+
 /* End of code generation (_coder_transceive102_mex.c) */
