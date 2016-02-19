@@ -6,8 +6,8 @@ txGain_all = [10,15,20,25,30,35];
 numPayload_all = [500,1004,1500,2004];
 
 % numRuns = size(txGain_all,2);
-numRuns = size(numPayload_all,2);
-%numRuns=1;
+%numRuns = size(numPayload_all,2);
+numRuns=1;
 
 %initialize arrays of data
 packetArray_all = cell(1,numRuns);
@@ -26,13 +26,13 @@ for k=1:numRuns
     load exp_output.mat;
    
     disp(i)
-    disp('Press any key!')
+    disp('Press any key! Set numPackets >> 10 !')
     pause;
     
     global l retransmit_counter packets_sent packet_number packet_array ...
     txGain rxGain centerFreqTx centerFreqRx numPayloadOctets
 
-    diary('3node_dTx102_diffPayload.m')
+    %diary('dtxDiary.m')
     %packet counters
     retransmit_counter= 0;
     packets_sent = 0;
@@ -43,13 +43,14 @@ for k=1:numRuns
     rxGain = 15;
     centerFreqTx = 1.284e9;
     centerFreqRx = 1.284e9;
-    numPayloadOctets = numPayload_all(1,i);
-    %numPayloadOctets = 2004;
+    %numPayloadOctets = numPayload_all(1,i);
+    numPayloadOctets = 2004;
     %begin experiment
     start=clock;
-    dtx_PHY_Layer_noExit
+    dtxPHYLayer
     stop=clock;
     %calculations
+    %Ignore the first 10 packets to account possibly for 'uhd: U' errors
     b=packet_array(10:end)-1;
     p=sum(b);
     perror=p/packets_sent;
