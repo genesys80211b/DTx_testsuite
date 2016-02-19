@@ -1,4 +1,4 @@
-function st = dtx_MAC_Layer(st,frt)
+function st = dtxMACLayer(st,frt)
 % DTX_MAC_Layer Wait DIFS between rx of ACK and tx of next DATA frame
 % persistent cd;
 % persistent nd;
@@ -27,7 +27,7 @@ trb = randi((2^(k))-1)*cMin;
 
 
 % hft: Function Handle to transceive() function for this IP Address
-trx = eval(sprintf('@transceive%3d_energy_mex',aip));
+trx = eval(sprintf('@transceive%3d_mex',aip));
 
 if (st==uint8(111))
     
