@@ -18,13 +18,13 @@ intFactor = 500;
 % % decFactor: Decimation Factor
 decFactor = 500;
 % % txGain: Tranmitter Gain used in transceive()
-% txGain = 30;
+txGain = 30;
 % % rxGain: Receiver Gain used in transceive()
-% rxGain = 15;
+rxGain = 15;
 % % Tx Center Frequency
-% centerFreqTx = 1.284e9;
+centerFreqTx = 1.284e9;
 % % Rx Center Frequency
-% centerFreqRx = 1.284e9;
+centerFreqRx = 1.284e9;
 % upFactor: RCF Upsampling Factor				
 upFactor = 2;
 % spreadFactor: DSSS Spreading Factor     				
@@ -133,7 +133,7 @@ toa = uint32(3000);
 %choice for data selection
 % choice: 1 for random binary data of length l, 2 for image selection
 choice = 1;
-% numPackets: number of desired packets, for choice 1
-numPackets = 40;
+% numPackets: number of desired packets, for choice 1, i.e. 30+ packets
+numPackets = 6;
 % length of binary data, leave blank or 0 for choice 2
 l = numPayloadBits*numPackets;

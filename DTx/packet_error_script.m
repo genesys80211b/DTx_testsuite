@@ -43,8 +43,8 @@ for k=1:numRuns
     rxGain = 15;
     centerFreqTx = 1.284e9;
     centerFreqRx = 1.284e9;
-    numPayloadOctets = numPayload_all(1,i);
-    %numPayloadOctets = 2004;
+    %numPayloadOctets = numPayload_all(1,i);
+    numPayloadOctets = 2004;
     %begin experiment
     start=clock;
     dtx_PHY_Layer_noExit

@@ -1,4 +1,4 @@
-function [dr,ns] = transceive103(d2s,ft,txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor)
+function [dr,ns] = transceive103(d2s,ft,txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor,flag)
 persistent hrx htx; 
 dr = complex(zeros(1408,1));
 ns = uint32(0);
@@ -13,6 +13,17 @@ if isempty(hrx)
         'IPAddress','192.168.10.3','OutputDataType','double', ...
         'SampleRate',2e5);
 end
+
+%listening mode:
+if abs(centerFreqTx-centerFreqRx)>0
+    %if Rx and Tx is different, switch for Listening mode
+    if flag
+        hrx.CenterFrequency = centerFreqTx;
+    else
+        hrx.CenterFrequency = centerFreqRx;
+    end
+end
+
 if (ft)
     release(hrx);
     release(htx);

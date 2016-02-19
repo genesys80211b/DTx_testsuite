@@ -1,4 +1,4 @@
-function dtx_PHY_Layer_noExit()
+function dtxPHYLayer()
 initParameters;
 
 global retransmit_counter packet_array...
@@ -50,7 +50,7 @@ smt = uint8(11); %DTxStateEnergyDet   %#ok<NASGU>
 swapFreqFlag = 0;
 
 % hft: Function Handle to transceive() function for this IP Address
-trx = eval(sprintf('@transceive%3d_energy_mex',aip));
+trx = eval(sprintf('@transceive%3d_mex',aip));
 
 tic;
 while ~fe
@@ -131,7 +131,7 @@ trx(db,ft,txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor,swapFreqFl
 dtx_2TransmitDATA(frt,ft);
 dtx_3ReceiveACK(df,ft,st);
 clear('ddd','dtx_2TransmitDATA','dtx_3ReceiveACK','preambleDet','rffe','sms');
-clear(sprintf('transceive%3d_energy_mex',aip));
+clear(sprintf('transceive%3d_mex',aip));
 return;
 end % End Function DTX_V35
 
