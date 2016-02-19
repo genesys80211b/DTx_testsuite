@@ -8,7 +8,7 @@ global spreadFactor numPayloadBits numMpduBits numUsrpBits numMacHdrBits usrpFra
     txGain rxGain centerFreqTx centerFreqRx decFactor numPackets vm ...
     numPayloadOctets
 
-% vm:  Verbose M    f.IPAddress(end-4:end)ode: Displays additional text describing DRx actions
+% vm:  Verbose M 
 vm  = logical(true(1));
 
 % adcRate: ADC Rate
@@ -134,6 +134,6 @@ toa = uint32(3000);
 % choice: 1 for random binary data of length l, 2 for image selection
 choice = 1;
 % numPackets: number of desired packets, for choice 1, i.e. 30+ packets
-numPackets = 6;
+numPackets = 20;
 % length of binary data, leave blank or 0 for choice 2
 l = numPayloadBits*numPackets;

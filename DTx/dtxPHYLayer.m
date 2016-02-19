@@ -3,13 +3,12 @@ initParameters;
 
 global retransmit_counter packet_array...
     txGain rxGain centerFreqTx centerFreqRx intFactor decFactor ...
-    energySamples numPackets packet_number syncnum vm
+    numPackets packet_number syncnum vm
 syncnum = 0;
 
 %set packet_array global variable
 packet_array = zeros(1,numPackets);
 
-energySamples=[];
 
 % Designated Receiver Parameter Structure
 %prm = init_v35();

@@ -1,4 +1,4 @@
-function [ energyThreshold ] = VirtualScope(usrpFrameLength, txGain, rxGain, centerFreqTx, centerFreqRx, intFactor, decFactor)
+function [ energyThreshold ] = networkObservation(usrpFrameLength, txGain, rxGain, centerFreqTx, centerFreqRx, intFactor, decFactor)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -19,7 +19,7 @@ energyThreshold = 0;
 nEnergySamples = 4e4;
 E = zeros(1,nEnergySamples);
 for i= 1:nEnergySamples
-    df = trx(db,ft,txGain,rxGain,centerFreqRx,centerFreqTx,intFactor,decFactor);
+    df = trx(db,ft,txGain,rxGain,centerFreqRx,centerFreqTx,intFactor,decFactor, 0);
     E(i) = sum(abs(df).^2);
 end
 
@@ -46,7 +46,7 @@ title('Virtual Scope Pair: N210 with IP Address 103 and Dell Machine 1, DTx: N21
 % energyThreshold = 4*E(end-2);
 
 % Release the handles to Tx/Rx system object
-trx(db,logical(true(1)),txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor);
+trx(db,logical(true(1)),txGain,rxGain,centerFreqTx,centerFreqRx,intFactor,decFactor, 0);
 
 
 end

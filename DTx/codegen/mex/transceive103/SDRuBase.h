@@ -3,14 +3,14 @@
  * course requirements at degree granting institutions only.  Not for
  * government, commercial, or other organizational use.
  *
- * _coder_transceive103_api.h
+ * SDRuBase.h
  *
- * Code generation for function '_coder_transceive103_api'
+ * Code generation for function 'SDRuBase'
  *
  */
 
-#ifndef ___CODER_TRANSCEIVE103_API_H__
-#define ___CODER_TRANSCEIVE103_API_H__
+#ifndef __SDRUBASE_H__
+#define __SDRUBASE_H__
 
 /* Include files */
 #include <math.h>
@@ -26,9 +26,9 @@
 #include "transceive103_types.h"
 
 /* Function Declarations */
-extern void transceive103_api(transceive103StackData *SD, const mxArray * const
-  prhs[9], const mxArray *plhs[2]);
+extern void SDRuBase_set_CenterFrequency(comm_SDRuReceiver *obj, real_T
+  aCenterFrequency);
 
 #endif
 
-/* End of code generation (_coder_transceive103_api.h) */
+/* End of code generation (SDRuBase.h) */
